@@ -10,6 +10,10 @@ import {
 import { createFactory } from "hono/factory";
 import { ENV } from "../index";
 import { isAuth } from "../middlewares/authentication";
+import {
+    signUpSchema,
+    signInSchema
+} from "@nbr11/blogify-common"
 
 const factory = createFactory<ENV>()
 
@@ -19,6 +23,16 @@ export const signupHanlder = factory!.createHandlers(async (c) => {
         const prisma = c.get('prisma') as PrismaClient
         const body = await c.req.json();
 
+        const {success} = signUpSchema.safeParse(body);
+
+        if(!success){
+            return c 
+                .json({
+                    "message":"Bad inputs"
+                },
+                400
+            )
+        }
         //checking if the email is already in use
         const userInDb = await prisma.user.findFirst({
             where: {
@@ -93,6 +107,17 @@ export const signinHandler = factory!.createHandlers(async (c) => {
 
         const prisma = c.get('prisma') as PrismaClient;
         const body = await c.req.json();
+
+        const {success} = signInSchema.safeParse(body);
+
+        if(!success){
+            return c 
+                .json({
+                    "message":"Bad inputs"
+                },
+                400
+            )
+        }
 
         //check if the user exists in the database
 

@@ -3,6 +3,10 @@ import { ENV } from "..";
 import { isAuth } from "../middlewares/authentication";
 import { PrismaClient } from "@prisma/client";
 import { publicMiddleware } from "../middlewares/public";
+import { 
+    postBlogSchema,
+    updateBlogSchema
+ } from "@nbr11/blogify-common";
 
 const factory  = createFactory<ENV>();
 
@@ -12,6 +16,17 @@ export const postBlogHandler = factory!.createHandlers(isAuth, async(c)=>{
         const prisma = c.get('prisma');
         const body = await c.req.json();
         const authorId = c.get('id');
+
+        const {success} = postBlogSchema.safeParse(body);
+
+        if(!success){
+            return c 
+                .json({
+                    "message":"Bad inputs"
+                },
+                400
+            )
+        }
         
         const postInDb = await prisma.post.create({
             data:{
@@ -48,6 +63,16 @@ export const putBlogHandler = factory!.createHandlers(isAuth, async(c)=>{
         const authorId = c.get('id');
         const blogId = c.req.param('id');
 
+        const {success} = updateBlogSchema.safeParse(body);
+
+        if(!success){
+            return c 
+                .json({
+                    "message":"Bad inputs"
+                },
+                400
+            )
+        }
         //here we will only allow the updation of title and content
 
         const toUpdateData = {
