@@ -15,7 +15,7 @@ const Signin:React.FC = () =>{
          <div className="w-[24rem]  rounded-lg  shadow-lg p-4">
                 <Heading heading="Sign in" text="Don't have an Account? " label="SignUp" route="/signup"></Heading>
                  <div className="mt-4 flex flex-col gap-3">
-                        <InputBox label="email" name="Email" placeholder="johndoe@example.com" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
+                        <InputBox value={userDetails} label="email" name="Email" placeholder="johndoe@example.com" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
                             setUserDetails((prev)=>{
                                    return {
                                           ...prev,
@@ -23,7 +23,7 @@ const Signin:React.FC = () =>{
                                    }
                             })
                         }}></InputBox>
-                        <InputBox label="password" name="Password" placeholder="password" type="password" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
+                        <InputBox value={userDetails} label="password" name="Password" placeholder="password" type="password" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
                             setUserDetails((prev)=>{
                                    return {
                                           ...prev,
@@ -34,7 +34,7 @@ const Signin:React.FC = () =>{
                  </div>
                  <div className="mt-4">
                     <Button name="Signin" onClick={(e:React.MouseEvent<HTMLButtonElement>)=>{
-                            
+
                     }}></Button>
                  </div>
          </div>

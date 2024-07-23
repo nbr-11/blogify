@@ -21,7 +21,7 @@ const Signup:React.FC = () => {
            <Heading heading="Create Your Account" text="Already have an Account? " label="login" route="/signin"></Heading>
             <div className="mt-4 flex flex-col gap-3">
 
-                   <InputBox label="firstName" name="First Name" placeholder="John" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
+                   <InputBox value={userDetials} label="firstName" name="First Name" placeholder="John" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
                         setUserDetails((prev)=>{
                             return {
                                 ...prev,
@@ -30,7 +30,7 @@ const Signup:React.FC = () => {
                         })
                    }}></InputBox>
 
-                   <InputBox label="lastName" name="Last Name" placeholder="Doe" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
+                   <InputBox value={userDetials} label="lastName" name="Last Name" placeholder="Doe" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
                         setUserDetails((prev)=>{
                             return {
                                 ...prev,
@@ -38,7 +38,7 @@ const Signup:React.FC = () => {
                             }
                         })
                    }}></InputBox>
-                   <InputBox label="email" name="Email" placeholder="johndoe@example.com" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
+                   <InputBox value={userDetials} label="email" name="Email" placeholder="johndoe@example.com" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
                         setUserDetails((prev)=>{
                             return {
                                 ...prev,
@@ -46,7 +46,7 @@ const Signup:React.FC = () => {
                             }
                         })
                    }}></InputBox>
-                   <InputBox label="password" name="Password" placeholder="password" type="password" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
+                   <InputBox value={userDetials} label="password" name="Password" placeholder="password" type="password" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{
                         setUserDetails((prev)=>{
                             return {
                                 ...prev,
@@ -59,7 +59,7 @@ const Signup:React.FC = () => {
                <Button name="SignUp" onClick={async (e:React.MouseEvent<HTMLButtonElement>)=>{
                 try{
                     const response = await axios.post(`http://127.0.0.1:8787/api/v1/user/signup`,userDetials);
-
+                    
                     if(response.status == 200){
                          toast.success('User Signed up', {
                             position: "top-center",
@@ -72,6 +72,14 @@ const Signup:React.FC = () => {
                             theme: "colored"
                             });
                     } 
+
+                    setUserDetails({
+                        firstName:"",
+                        lastName:"",
+                        email:"",
+                        password:""
+                    });
+
                 } catch(e:AxiosError| any){
                     toast.error(e.response.data.message, {
                         position: "top-center",
@@ -82,6 +90,12 @@ const Signup:React.FC = () => {
                         draggable: true,
                         progress: undefined,
                         theme: "colored"
+                        });
+                        setUserDetails({
+                            firstName:"",
+                            lastName:"",
+                            email:"",
+                            password:""
                         });
                 }
                }}></Button>
