@@ -23,12 +23,12 @@ export const signupHanlder = factory!.createHandlers(async (c) => {
         const prisma = c.get('prisma') as PrismaClient
         const body = await c.req.json();
 
-        const {success} = signUpSchema.safeParse(body);
+        const {success, error} = signUpSchema.safeParse(body);
 
         if(!success){
             return c 
                 .json({
-                    "message":"Bad inputs"
+                    "message":error.issues[0].message
                 },
                 400
             )
@@ -90,7 +90,7 @@ export const signupHanlder = factory!.createHandlers(async (c) => {
         return c.json({
             "message": "user signed up"
         },
-            200);
+        200);
 
     } catch (e) {
         return c

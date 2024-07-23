@@ -2,19 +2,22 @@ import zod from 'zod';
 
 
 export const passwordSchema = zod.string()
-                        .min(8,{message:"The password must be of minimum 8 length"})
-                        .regex(/[a-z]/,{message:"It must contain at least one smallcase character"})
-                        .regex(/[A-Z]/,{message:"It must contain at least on UpperCase character"})
-                        .regex(/^[a-zA-z0-9]/,{message:"must contain at least one special character"});
+                        .min(8,{message:"The password's minimum length must be 8"})
+                        .regex(/[a-z]/,{message:"The password must contain at least one smallcase character"})
+                        .regex(/[A-Z]/,{message:"The password must contain at least on UpperCase character"})
+                        .regex(/[0-9]/,{message:"The password must contain at least one number"})
+                        .regex(/[^a-zA-z0-9]/,{message:"The password must contain at least one special character"});
 
                         
 export const signUpSchema = zod.object({
-    email:zod.string().email(),
+    firstName:zod.string(),
+    lastName:zod.string().optional(),
+    email:zod.string().email({message:"The email is invalid"}),
     password:passwordSchema
 });
 
 export const signInSchema = zod.object({
-    email:zod.string().email(),
+    email:zod.string().email({message:"The email is invalid"}),
     password:passwordSchema
 });
 

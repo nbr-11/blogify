@@ -6,26 +6,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateBlogSchema = exports.postBlogSchema = exports.signInSchema = exports.signUpSchema = exports.passwordSchema = void 0;
 const zod_1 = __importDefault(require("zod"));
 exports.passwordSchema = zod_1.default.string()
-    .min(8, { message: "The password must be of minimum 8 length" })
-    .regex(/[a-z]/, { message: "It must contain at least one smallcase character" })
-    .regex(/[A-Z]/, { message: "It must contain at least on UpperCase character" })
-    .regex(/^[a-zA-z0-9]/, { message: "must contain at least one special character" });
-//signup types and schema
+    .min(8, { message: "The password's minimum length must be 8" })
+    .regex(/[a-z]/, { message: "The password must contain at least one smallcase character" })
+    .regex(/[A-Z]/, { message: "The password must contain at least on UpperCase character" })
+    .regex(/[0-9]/, { message: "The password must contain at least one number" })
+    .regex(/[^a-zA-z0-9]/, { message: "The password must contain at least one special character" });
 exports.signUpSchema = zod_1.default.object({
-    email: zod_1.default.string().email(),
+    firstName: zod_1.default.string(),
+    lastName: zod_1.default.string().optional(),
+    email: zod_1.default.string().email({ message: "The email is invalid" }),
     password: exports.passwordSchema
 });
-//signin schema
 exports.signInSchema = zod_1.default.object({
-    email: zod_1.default.string().email(),
+    email: zod_1.default.string().email({ message: "The email is invalid" }),
     password: exports.passwordSchema
 });
-//create blog
 exports.postBlogSchema = zod_1.default.object({
     title: zod_1.default.string(),
     content: zod_1.default.string()
 });
-//update a blog
 exports.updateBlogSchema = zod_1.default.object({
     title: zod_1.default.string().optional(),
     content: zod_1.default.string().optional(),
